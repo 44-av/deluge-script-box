@@ -1,0 +1,20 @@
+upload = zoho.writer.mergeAndStore(template_id,merge_fields,remaining_fields,"zapp");
+document_url = "https://www.zohoapis.com/writer/api/v1/documents/" + upload.get("document_id") + "?format=docx";
+Response = invokeurl
+[
+	url :document_url
+	type :GET
+	connection:"zapp"
+];
+Response.setFileName(document_name + ".docx");
+attachResponse = zoho.crm.attachFile("Deals",record_id,Response);
+if(attachResponse.get("code") == "SUCCESS")
+{
+	return "File attached successfully.";
+}
+else
+{
+	return "Failed to attach file: " + attachResponse.get("message");
+}
+record_id = zoho.crm.getRecordById("Writer_Document","record_id");
+return record_id;

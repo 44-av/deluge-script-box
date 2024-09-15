@@ -1,0 +1,23 @@
+void writer(int qid)
+{
+	quote = Quote[ID == qid];
+	data = Map();
+	data.put("number",quote.Quote_Number);
+	data.put("owner",quote.Quote_Owner);
+	data.put("email",quote.Email);
+	param = Map();
+	param.put("merge_data",{"data":data});
+	param.put("output_format","pdf");
+	param.put("response_type","link");
+	info param;
+	// email = "amelia@zylker.com";
+	response = invokeurl
+	[
+		url :"https://www.zohoapis.com/writer/api/v1/documents/ponazfea04477109f4681a831e7177d96bc40/merge"
+		type :POST
+		parameters:param
+		connection:"zoho_write"
+	];
+	info response;
+	// openUrl("https://writer.zoho.com/writer/open/cvhkba64ca81dddf3477283199a6a34dbfb6d","new window");
+}

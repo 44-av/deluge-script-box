@@ -1,0 +1,7 @@
+productSync = invokeurl
+[
+	url :"https://www.zohoapis.com/books/v3/crm/item/" + productID + "/import?organization_id=" + 859045993
+	type :POST
+	connection:"zohobooks"
+];
+info productSync;

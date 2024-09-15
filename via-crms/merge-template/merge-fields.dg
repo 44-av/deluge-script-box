@@ -1,0 +1,61 @@
+try 
+{
+	// variable declaration and initialization 		 		
+	workshop_temp_id = "8xvu6f89df0093545460c90caa5cc4a05f260";
+	license_template_id = "ud1fg4c52556cffdd4c2a86712f91202ffd14";
+	premium_template_id = "ud1fg7e5ddc5a8e044da6a4ae1fd31763ed24";
+	account_name = zoho.crm.getRecordById("Deals",record_id).get("Account_Name").get("name");
+	deal_owner = zoho.crm.getRecordById("Deals",record_id).get("Owner").get("name");
+	// map declaration and initialization 		
+	merge_fields = Map();
+	merge_fields.put("Account_Name",account_name);
+	merge_fields.put("Deal_Name",deal_name);
+	merge_fields.put("Description",description);
+	merge_fields.put("Man_Hours",man_hours);
+	merge_fields.put("Zoho_Services",zoho_services);
+	merge_fields.put("Rate_per_Hour",rate_per_hour);
+	merge_fields.put("Types_of_Service",types_of_services);
+	merge_fields.put("Duration_by_month",duration_by_month);
+	merge_fields.put("Deal_Owner_Name",deal_owner);
+	totalCost = man_hours * rate_per_hour;
+	merge_fields.put("Total_Cost",totalCost);
+	merge_fields.put("Current_Date",now.toString("MMM dd yyyy","Asia/Manila"));
+	validity = now.addMonth(1).toString("MMM dd yyyy","Asia/Manila");
+	merge_fields.put("Validity_End_Date",validity);
+	remaining_fields = Map();
+	document_workshop_php = "DEVTAC x " + account_name + " - Premium Support Workshop Proposal (PHP)";
+	document_premium_php = "DEVTAC x " + account_name + " - Premium Support Proposal (PHP)";
+	document_license_php = "DEVTAC x " + account_name + " x Renewal Zoho License Proposal Rev 02 (PHP)";
+	merge_fields.put("Currency","PHP");
+	workshop_php = standalone.merge_and_store(workshop_temp_id,merge_fields,remaining_fields,record_id,document_workshop_php);
+	premium_php = standalone.merge_and_store(premium_template_id,merge_fields,remaining_fields,record_id,document_premium_php);
+	license_php = standalone.merge_and_store(license_template_id,merge_fields,remaining_fields,record_id,document_license_php);
+	document_workshop_usd = "DEVTAC x " + account_name + " - Premium Support Workshop Proposal (USD)";
+	document_premium_usd = "DEVTAC x " + account_name + " - Premium Support Proposal (USD)";
+	document_license_usd = "DEVTAC x " + account_name + " x Renewal Zoho License Proposal Rev 02 (USD)";
+	merge_fields.put("Currency","USD");
+	workshop_usd = standalone.merge_and_store(workshop_temp_id,merge_fields,remaining_fields,record_id,document_workshop_usd);
+	premium_php = standalone.merge_and_store(premium_template_id,merge_fields,remaining_fields,record_id,document_premium_usd);
+	license_php = standalone.merge_and_store(license_template_id,merge_fields,remaining_fields,record_id,document_license_usd);
+	if(workshop_php != null)
+	{
+		return workshop_php.toString();
+	}
+	else
+	{
+		return "No values returned";
+	}
+	if(workshop_usd != null)
+	{
+		return workshop_php.toString();
+	}
+	else
+	{
+		return "No values returned";
+	}
+}
+catch (error)
+{
+	return "An error occurred: " + error.message;
+	// Handle the error and return a string
+}

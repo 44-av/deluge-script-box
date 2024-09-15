@@ -1,0 +1,27 @@
+quote = Quote[ID == input.quote_id.toLong()];
+quote_link = "https://creatorapp.zoho.com/aryan.devtac/sales-quote-application/record_summary/All_Quotes/" + quote.ID;
+if(input.revision_reason.isEmpty())
+{
+	alert "Write your reason for revision";
+}
+else
+{
+	// 	email content for customer
+	sendmail
+	[
+		from :zoho.adminuserid
+		to :quote.Email
+		subject :"Quote " + quote.Quote_Number + " Is For Revision"
+		message :"Hi " + quote.Added_User + ", <br /><br />" + "The quote " + quote.Quote_Number + " will be for revision."
+	]
+	// 	email content for quote owner
+	sendmail
+	[
+		from :zoho.adminuserid
+		to :"arianegaye.villalino@devtac.com"
+		subject :"Quote " + quote.Quote_Number + " Is For Revision"
+		message :"Hi " + quote.Quote_Owner + ", <br /><br />" + "The Quote " + quote.Quote_Number + " has been requested a revision.<br />Please click the link below to view the record. <br /><br />Quote: " + quote_link + " <br /><br /> Reason:  <br /><br /> " + input.revision_reason
+	]
+	quote.Quote_Status="For Revision";
+	openUrl(quote_link,"same window");
+}

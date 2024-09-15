@@ -1,0 +1,17 @@
+    account_record = Map();
+    account_record.put("Account_Name",input.Account_Name);
+    account_record.put("Website",input.Website);
+    account_record.put("Phone",input.Phone_Number);
+    account_record.put("Billing_Street",input.Billing_Street);
+    account_record.put("Billing_City",input.Billing_City);
+    account_record.put("Billing_Code",input.Billing_Zip_Code);
+    account_record.put("Billing_Country",input.Billing_Country);
+    crm_account = zoho.crm.getRecordById("Accounts",input.Account_ID.toNumber());
+    if(input.Account_ID.toNumber() == crm_account.get("id"))
+        {
+            update_record = zoho.crm.updateRecord("Accounts",input.Account_ID.toLong(),account_record);
+        }
+    else
+        {
+            create_record = zoho.crm.createRecord("Accounts",account_record);
+        }

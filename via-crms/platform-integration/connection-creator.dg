@@ -1,0 +1,23 @@
+remaining_fields = Map();
+account_record = Map();
+ownerName = "aryan.devtac";
+appName = "sales-quote-application";
+moduleName = "Account";
+account_record.put("Account_ID",account_id);
+account_record.put("Account_Name",account_name.toString());
+account_record.put("Website",website);
+account_record.put("Description",desc);
+account_record.put("Phone",phone);
+account_record.put("Billing_Street",billing_street);
+account_record.put("Billing_City",billing_city);
+account_record.put("Billing_Zip_Code",billing_zip);
+account_record.put("Billing_Country",billing_country);
+creator_account = zoho.creator.getRecordById(ownerName,appName,moduleName,input.account_id.toLong(),"zohocreator");
+if(input.account_id.toLong() == creator_account.get("Account_ID"))
+{
+	update_record = zoho.creator.updateRecord(ownerName,appName,moduleName,input.account_id.toLong(),account_record,remaining_fields,"zohocreator");
+}
+else
+{
+	response = zoho.creator.createRecord(ownerName,appName,moduleName,account_record,remaining_fields,"zohocreator");
+}

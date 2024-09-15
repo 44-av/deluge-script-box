@@ -1,0 +1,40 @@
+// IE: Automation of Proposals in Zoho CRM Deals
+template_id = "8xvu6f89df0093545460c90caa5cc4a05f260";
+account_name = zoho.crm.getRecordById("Deals",record_id).get("Account_Name").get("name");
+deal_owner = zoho.crm.getRecordById("Deals",record_id).get("Owner").get("name");
+merge_fields = Map();
+merge_fields.put("Account_Name",account_name);
+merge_fields.put("Deal_Name",deal_name);
+merge_fields.put("Description",description);
+merge_fields.put("Man_Hours",man_hours);
+merge_fields.put("Zoho_Services",zoho_services);
+merge_fields.put("Rate_per_Hour",rate_per_hour);
+merge_fields.put("Types_of_Service",types_of_services);
+merge_fields.put("Duration_by_month",duration_by_month);
+merge_fields.put("Deal_Owner_Name",deal_owner);
+totalCost = man_hours * rate_per_hour;
+merge_fields.put("Total_Cost",totalCost);
+merge_fields.put("Current_Date",today.toString("MMM dd yyyy"));
+validity = today.addMonth(1).toString("MMM dd yyyy");
+merge_fields.put("Validity_End_Date",validity);
+remaining_fields = Map();
+upload = zoho.writer.mergeAndStore(template_id,merge_fields,remaining_fields,"zapp");
+document_url = "https://www.zohoapis.com/writer/api/v1/documents/" + upload.get("document_id") + "?format=pdf";
+Response = invokeurl
+[
+	url :document_url
+	type :GET
+	connection:"zapp"
+];
+info Response;
+attachResponse = zoho.crm.attachFile("Deals",record_id,Response);
+info attachResponse;
+if(attachResponse.get("code") == "SUCCESS")
+{
+	return "File attached successfully.";
+}
+else
+{
+	return "Failed to attach file: " + attachResponse.get("message");
+}
+record_id = zoho.crm.getRecordById("Writer_Document","record_id");

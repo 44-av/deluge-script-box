@@ -1,0 +1,23 @@
+quote = Quote[ID == input.quote_id.toLong()];
+quote_link = "https://creatorapp.zoho.com/aryan.devtac/sales-quote-application/record_summary/All_Quotes/" + quote.ID;
+// 	email content for customer
+    sendmail
+    [
+        from :zoho.adminuserid
+        to :quote.Email
+        subject :"Quote " + quote.Quote_Number + " Has Been Rejected"
+        message :"Hi " + quote.Added_User + ", <br /><br />" + "The quote " + quote.Quote_Number + " has been rejected."
+    ]
+// 	email content for quote owner
+    sendmail
+    [
+        from :zoho.adminuserid
+        to :"arianegaye.villalino@devtac.com"
+        subject :"Quote " + quote.Quote_Number + " Has Been Rejected"
+        message :"Hi " + quote.Quote_Owner + ", <br /><br />" + "The Quote " + quote.Quote_Number + " has been rejected.<br />Please click the link below to view the record. <br /><br />Quote: " + quote_link
+    ]
+quote.Quote_Status="Rejected";
+openUrl(quote_link,"same window");
+new_stage = Map();
+new_stage.put("Stage","Closed Lost");
+create_quote = zoho.crm.updateRecord("Deals",quote.Deal.toLong(),new_stage);

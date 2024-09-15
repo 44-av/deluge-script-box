@@ -1,0 +1,14 @@
+product_record = Map();
+product_record.put("Product_Name",input.Product_Name);
+product_record.put("Product_Code",input.Product_Code);
+product_record.put("Unit_Price",input.Cost_Price);
+product_record.put("Description",input.Description);
+crm_product = zoho.crm.getRecordById("Products",input.Product_ID.toNumber());
+    if(input.Product_ID.toNumber() == crm_product.get("id"))
+        {
+            update_record = zoho.crm.updateRecord("Products",input.Product_ID.toLong(),product_record);
+        }
+    else
+        {
+            create_record = zoho.crm.createRecord("Products",product_record);
+        }

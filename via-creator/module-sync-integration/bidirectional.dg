@@ -1,0 +1,39 @@
+try 
+{
+	// declare a map variable to store lead record details and populate it with values from the input object
+	lead_record = Map();
+	lead_record.put("Lead_ID",input.Lead_ID);
+	lead_record.put("First_Name",input.Lead_Name.first_name);
+	lead_record.put("Last_Name",input.Lead_Name.last_name);
+	lead_record.put("Lead_Source",input.Lead_Source);
+	lead_record.put("Phone",input.Phone_Number);
+	// get the lead record from Zoho CRM using the specified Lead_ID value
+	crm_lead = zoho.crm.getRecordById("Leads",input.Lead_ID.toNumber());
+	// Check if the Lead_ID from the input matches the ID of the retrieved CRM lead
+	if(input.Lead_ID.toNumber() == crm_lead.get("id"))
+	{
+		//  if a match is found, update the existing record
+		update_record = zoho.crm.updateRecord("Leads",input.Lead_ID.toLong(),lead_record);
+	}
+	else
+	{
+		//  if no match is found, create a new record
+		create_record = zoho.crm.createRecord("Leads",lead_record);
+	}
+}
+catch (e)
+{
+	// Define the developer's email address
+	developerEmail = "arianegaye.villalino@devtac.com";
+	// Create the email subject and body
+	subjectEmail = "Error Notification: Deluge Script Error in CRM Leads to Creator Function";
+	bodyEmail = "An error occurred in the Deluge script:\n\n" + "Error Message: " + e.toString();
+	// Send the email
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :developerEmail
+		subject :subjectEmail
+		message :bodyEmail
+	]
+}
