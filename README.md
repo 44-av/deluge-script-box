@@ -1,6 +1,6 @@
 # Deluge Script Box
 
-**Deluge Script Box** is a collection of powerful automation scripts built using Zoho's Deluge scripting language. This repository is designed to help users streamline and automate various tasks, such as scheduling operations, organizing files, sending notifications, and more. By leveraging Zoho Deluge, these scripts provide flexibility and efficiency for managing workflows across different applications and services.
+**Deluge Script Box** is a collection of automation scripts built using Zoho's Deluge scripting language. This repository is designed to help users streamline and automate various tasks, such as scheduling operations, organizing files, sending notifications, and more. By leveraging Zoho Deluge, these scripts provide flexibility and efficiency for managing workflows across different applications and services.
 
 ## Features
 
